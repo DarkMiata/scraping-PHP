@@ -22,17 +22,39 @@ function DB_connexion() {
 }
 
 // ========================================
-
-function DB_add_article($nom, $prix, $description, $ref, $stock, $cat) {
-
+function DB_ref_exit($ref) {
   $bdd = DB_connexion();
 
   $reqSql = $bdd->query(
-    " INSERT INTO produit"
-    . " (nom, prix, description, ref, stock, cat)"
-    . " VALUES ('$nom', '$prix', '$description'"
-    . ", '$ref', '$stock', '$cat');"
-    )->fetch();
+          " SELECT ref"
+          . " FROM blz"
+          . " WHERE ref='$ref';"
+      )->fetch();
+
+  echo "reqsql ref exit";
+  var_dump($reqSql);
+  echo "<br>";
+  
+  return $reqSql;
+}
+// ========================================
+
+function DB_add_article($nom, $marque, $ref, $prix, $img_fichier, $img_url) {
+
+  $bdd = DB_connexion();
+
+  if (DB_ref_exit($ref) === FALSE) {
+  
+    $reqSql = $bdd->query(
+      " INSERT INTO blz"
+      . " (nom, marque, ref, prix, img_fichier, img_url)"
+      . " VALUES ('$nom', '$marque', '$ref', '$prix', '$img_fichier', '$img_url');"
+      )->fetch();
+  }
+  else {
+    echo "la ref $ref existe déjà dans la DB<br>";
+    $reqSql = FALSE;
+  }
 
   return $reqSql;
 }
