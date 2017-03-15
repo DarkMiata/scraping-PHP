@@ -22,6 +22,7 @@ function DB_connexion() {
 }
 
 // ========================================
+
 function DB_ref_exit($ref) {
   $bdd = DB_connexion();
 
@@ -30,11 +31,20 @@ function DB_ref_exit($ref) {
           . " FROM blz"
           . " WHERE ref='$ref';"
       )->fetch();
-
-  echo "reqsql ref exit";
-  var_dump($reqSql);
-  echo "<br>";
   
+  return $reqSql;
+}
+// ========================================
+
+function DB_get_BlzAll($ref) {
+  $bdd = DB_connexion();
+
+  $reqSql = $bdd->query(
+          " SELECT nom, marque, ref, prix, img_fichier, img_url"
+          . " FROM blz"
+          . " WHERE ref='$ref';"
+      )->fetch();
+ 
   return $reqSql;
 }
 // ========================================
@@ -52,7 +62,7 @@ function DB_add_article($nom, $marque, $ref, $prix, $img_fichier, $img_url) {
       )->fetch();
   }
   else {
-    echo "la ref $ref existe déjà dans la DB<br>";
+    //echo "la ref $ref existe déjà dans la DB<br>";
     $reqSql = FALSE;
   }
 

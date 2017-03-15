@@ -3,52 +3,57 @@
 require_once 'simple_html_dom.php';
 require_once "DB_scraping.php";
 
-// but de l'exercice: scrapper le site internet laboutiqueofficielle.com
-// et récupérer les articles 'robes' du site.
-//
-// http://www.laboutiqueofficielle.com/robes-jupes-129/
+define ("DEBUG", FALSE);
+
+// but de l'exercice: scrapper le site internet blzjeans
+// et récupérer les articles 'nouveautés' du site.
 //
 // Samuel Vermeulen
 // 10/03/2017
-//
-// lecture d'une page
- 
 // =======================================
-// Affichage de l'image et sauvegarde dans le répertoire 'img'
 
+function debug ($string) {
+  if (DEBUG === TRUE) {
+    echo ($string);
+  }
+}
+// =======================================
+
+// Affichage de l'image et sauvegarde dans le répertoire 'img'
 function get_ArticleImgFile($url, $fileName) {
   $PATH_URL_IMG = "http://blzjeans.com";
   $PATH_LOCAL_IMG = "file:///K:/wamp/www/scrapping_boutOff/img/";
-    ?>
-      <img src="<?php echo ($PATH_URL_IMG . $url); ?>"><br>
-    <?php
-    
-//  echo ("path url: "    .$PATH_URL_IMG    .$url       ."<br>");
-//  echo ("path local: "  .$PATH_LOCAL_IMG  .$fileName  ."<br>");
 
-    // lecture/écriture des images des articles si fichier n'existe pas
-    if ($PATH_LOCAL_IMG . $fileName === FALSE) {
-      file_put_contents(
-          $PATH_LOCAL_IMG . $fileName
-          , file_get_contents($PATH_URL_IMG . $url)
-      );
-    }
+  echo "traitement image<br>";
+  // lecture/écriture des images des articles si fichier n'existe pas
+  if (file_exists($PATH_LOCAL_IMG . $fileName) === FALSE) {
+    echo "écriture: " . $PATH_URL_IMG . $url . " => "
+        . $PATH_LOCAL_IMG . $fileName . "<br>";
+
+    file_put_contents(
+        $PATH_LOCAL_IMG . $fileName
+        , file_get_contents($PATH_URL_IMG . $url)
+    );
   }
-
+}
 // =======================================
+  
   function find_prixHtml($html) {
     $prixTab = $html->find('[class=price]');
 
     $prix = $prixTab[0]->plaintext;
-
+    debug ($prix."<br>");
+    //var_dump($prix);
+    debug  ("<br>");
+    
     // remplace le '€' par un '.'
     $prixFloat = str_replace("&#8364;", ".", $prix);
     
     return $prixFloat;
   }
 // =======================================
+ 
 // renvoi le nom et la marque
-  
   function find_nomMarqueHtml($html) {
     // récupération de la marque/nom de l'article
     $nom = $html->find('[class=product_name]');
@@ -64,8 +69,8 @@ function get_ArticleImgFile($url, $fileName) {
     return $Tab_result; 
 }
 // =======================================
-// Renvoi le nom du fichier image et son Url
 
+// Renvoi le nom du fichier image et son Url
 function find_imgLinkHtml($html) {
     $imgLink = $html->find('[class=product_img_link]');
     
@@ -91,24 +96,26 @@ function find_imgLinkHtml($html) {
 }
 // =======================================
 
-function test_scrap8() {
-  $url = "file:///K:/wamp/www/scrapping_boutOff/scrapping_test.html";
-
+function scrapPage($page) {
+  //$url = "file:///K:/wamp/www/scrapping_boutOff/scrapping_test.html";
+  $url ="http://blzjeans.com/new-products.php?p=$page&from=top&n=120";
+  
   $html = file_get_html($url);
 
   foreach ($html->find('li[class=product_list_block]') as $elementHtml) {
 
     $prix = find_prixHtml($elementHtml);
-    echo "prix: '" .$prix. "'<br>"; 
+    debug ("prix: '" .$prix. "'<br>"); 
     // récupération de la marque et nom article et suppression des espaces indésirables
     
     $tab_result = find_nomMarqueHtml($elementHtml);
     
-    $marque     = $tab_result['marque'];
-    $nomArticle = $tab_result['nom'];
+    // décodage pour les accents/symboles utf-8
+    $marque     = html_entity_decode($tab_result['marque']);
+    $nomArticle = html_entity_decode($tab_result['nom']);
     
-    echo ("marque: "        .$marque      ."<br>");
-    echo ("nom article: "   .$nomArticle  ."<br>");
+    debug ("marque: "        .$marque      ."<br>");
+    debug ("nom article: "   .$nomArticle  ."<br>");
     
     $tab_result = find_imgLinkHtml($elementHtml);
     
@@ -116,20 +123,26 @@ function test_scrap8() {
     $imgFile  = $tab_result['file'];
     $ref      = $tab_result['ref'];
 
-    echo ("ref: " .$ref. "<br>");
+    debug ("ref: " .$ref. "<br>");
     
     get_ArticleImgFile($imgUrl, $imgFile);
 
     DB_add_article($nomArticle, $marque, $ref, $prix
         , $imgFile, $imgUrl);
     
-    echo "<br>=======================<br>";
-    echo "<br>";
+    debug ("<br>=======================<br>");
+    debug ("<br>");
   }
 }
-
 // =======================================
 // =======================================
 // boucle principale
 
-test_scrap8();
+// 
+set_time_limit (600);
+
+for ($page = 1; $page < 10; $page++) {
+  echo "=============<br>";
+  echo "page: $page<br>";
+  scrapPage($page);
+}
