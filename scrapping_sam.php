@@ -3,7 +3,7 @@
 require_once 'simple_html_dom.php';
 require_once "DB_scraping.php";
 
-define ("DEBUG", FALSE);
+define ("DEBUG", TRUE);
 
 // but de l'exercice: scrapper le site internet blzjeans
 // et récupérer les articles 'nouveautés' du site.
@@ -96,9 +96,71 @@ function find_imgLinkHtml($html) {
 }
 // =======================================
 
+// Récupère l'adresse url du lien de la page de l'article
+
+function find_urlLinkHtml($html) {
+    $imgLink = $html->find('[class=product_img_link]');
+    
+    // récupération du code 'onmouseout' du type '$('#photo_30853').attr('src',
+    // '/30853-111574-produit/t-shirt-homme-blanc-avec-poche-effet-bomber.jpg')'
+    
+    debug($imgLink);
+    
+    $link = $imgLink[0]->children[0]->attr['href'];
+    
+    debug($link);
+}
+// =======================================
+
+// Retourne sous forme d'array les blocs des articles
+function get_blockArticle($urlHtml) {
+
+    $urlHtml ="http://blzjeans.com/new-products.php?n=4";
+    
+    $html = file_get_html($urlHtml);
+
+
+    $block_array = $html->find('li[class=product_list_block]');    
+
+    return $block_array;
+}
+// =======================================
+
+// retourne sous forme d'array les link url des articles.
+/**
+ * 
+ * @param type $block_array - blocs des articles sous forme d'array
+ */
+function get_urlLink($block_array) {
+  foreach ($block_array as $block) {
+
+    //var_dump($block);
+
+    // récupération de l'url du link
+    $hrefUrl = $block->find('[href]')[0]->attr['href'];
+    
+    //var_dump($hrefUrl);
+    //echo("================================");
+    
+    
+    // Va chercher le num ref contenu dans le nom du fichier .html
+    $result_array['href'][] = $hrefUrl;
+    
+    $linkHtmlFile = explode("/", $hrefUrl)[4];
+    //var_dump($linkHtmlFile);
+    
+    $result_array['ref'][] = explode("-", $linkHtmlFile)[0];
+  }
+  
+  return $result_array;
+}
+
+// =======================================
+
+// Fonction principale de récupération d'informations
 function scrapPage($page) {
-  //$url = "file:///K:/wamp/www/scrapping_boutOff/scrapping_test.html";
-  $url ="http://blzjeans.com/new-products.php?p=$page&from=top&n=120";
+  $url = "file:///K:/wamp/www/scrapping_boutOff/scrapping_test.html";
+  //$url ="http://blzjeans.com/new-products.php?p=$page&from=top&n=120";
   
   $html = file_get_html($url);
 
@@ -135,14 +197,46 @@ function scrapPage($page) {
   }
 }
 // =======================================
+
+// Scanne les 10 premieres pages des nouveautés.
+function scanPageNouveauxArticles() {
+
+  set_time_limit (600);
+
+  for ($page = 1; $page < 10; $page++) {
+    echo "=============<br>";
+    echo "page: $page<br>";
+    scrapPage($page);
+  }
+}
+// =======================================
+/**
+Exemple d'url: http://blzjeans.com/pull-homme/29831-pullover-fipullover-fin-homme-gris-chine-oversize-arrondie-celebry-tees.html
+url de l'article ref 29831.
+*/
+
+/**
+ * scanne la page d'un seul article et récupère ses infos.
+ * @param type $ref
+ */
+function scanPageArticleUnitaire ($ref) {
+  
+}
+// =======================================
+
+function get_urlLink_to_DB ($urlPage) {
+  
+}
+
+// =======================================
 // =======================================
 // boucle principale
+/**
+$block_array = get_blockArticle("http://blzjeans.com/new-products.php?n=4");
 
-// 
-set_time_limit (600);
+$href_array = get_urlLink($block_array);
 
-for ($page = 1; $page < 10; $page++) {
-  echo "=============<br>";
-  echo "page: $page<br>";
-  scrapPage($page);
-}
+var_dump($href_array);
+*/
+
+get_urlLink_to_DB("http://blzjeans.com/new-products.php?n=4");

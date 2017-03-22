@@ -68,4 +68,17 @@ function DB_add_article($nom, $marque, $ref, $prix, $img_fichier, $img_url) {
 
   return $reqSql;
 }
+// ========================================
+
+function DB_getBlzLinkUrl($ref) {
+  $bdd = DB_connexion();
+  
+  $reqSql = $bdd->query(
+      "SELECT url_page_article"
+      . " FROM blz"
+      . " WHERE ref='$ref';"
+      )->fetch();
+  
+  return $reqSql;
+}
 
