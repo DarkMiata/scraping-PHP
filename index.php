@@ -1,7 +1,5 @@
 <?php
-
-require_once 'simple_html_dom.php';
-require_once "DB_scraping.php";
+require_once '/config/config.php';
 
 define ("DEBUG", TRUE);
 
@@ -328,4 +326,10 @@ $linkCat_array = scanPagePrincipale();
 scanPagesListeArticles();
 */
 
-$nbrPages = nbrPagesListeArticle("http://blzjeans.com/6-vetement-t-shirt-homme");
+//$nbrPages = nbrPagesListeArticle("http://blzjeans.com/6-vetement-t-shirt-homme");
+
+$mainPage = new WebSite();
+
+$mainPage->scanMainPage();
+
+var_dump($mainPage->get_CatLink()[0]);

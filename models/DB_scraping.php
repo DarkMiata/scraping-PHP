@@ -1,13 +1,13 @@
 <?php
-
+require_once '/config/config.php';
 // Configuration de la connexion à la base de données
-
-define("DB_NAME", "vitrine");
-define("DB_URL", "localhost");
-
-// !!! à redéfinir en version final !!
-define("DB_LOGIN", "root");
-define("DB_PWD", "");
+//
+//define("DB_NAME", "vitrine");
+//define("DB_URL", "localhost");
+//
+//// !!! à redéfinir en version final !!
+//define("DB_LOGIN", "root");
+//define("DB_PWD", "");
 
 // ========================================
 
