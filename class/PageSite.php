@@ -7,21 +7,22 @@
  */
 
 class PageSiteCat {
-  public  $url;
-  private  $cat;
-  private $count;
-  private $listArticles = [];
+  public    $url;
+  private   $cat;
+  private   $count;
+  private   $listArticles = [];
   
+// ==================================================================
 // ==================================================================
   
   function set_count($count) {
     
-    $count = intval($count);
+    $countInt = intval($count);
     
-    if (is_int($count) == TRUE and $count > 0) {
-      $this->count = $count;
+    if (is_int($countInt) == TRUE and $countInt > 0) {
+      $this->count = $countInt;
     } else {
-      echo ("erreur 'set_count':".$count." n'est pas un entier<br>");
+      echo ("erreur 'set_count':".$countInt." n'est pas un entier<br>");
     }
   }
 
@@ -32,6 +33,10 @@ class PageSiteCat {
   }
 
 // ==================================================================
+// ==================================================================
 
+  
+  
+// ==================================================================
 }
 

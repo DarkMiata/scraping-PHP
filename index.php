@@ -1,3 +1,9 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+</head>
+
 <?php
 require_once '/config/config.php';
 
@@ -254,6 +260,8 @@ function get_urlLink_to_DB ($urlPage) {
  * 
  * @return type array - la liste des liens
  */
+
+/*
 function scanPagePrincipale () {
   
   //$urlMainPage    = "http://blzjeans.com/110-vetement-homme";
@@ -286,8 +294,10 @@ function scanPagePrincipale () {
 
   return $linkCat;
 }
-// ==================================================================
+ */
 
+// ==================================================================
+/*
 function nbrPagesListeArticle($url) {
   
   $html = file_get_html($url);
@@ -297,6 +307,8 @@ function nbrPagesListeArticle($url) {
  
   return $nbrPages;
 }
+*/
+
 // ==================================================================
 
 function scanPagesListeArticles() {
@@ -327,9 +339,18 @@ scanPagesListeArticles();
 */
 
 //$nbrPages = nbrPagesListeArticle("http://blzjeans.com/6-vetement-t-shirt-homme");
-
+/*
 $mainPage = new WebSite();
 
 $mainPage->scanMainPage();
 
 var_dump($mainPage->get_CatLink()[0]);
+
+ */
+$urlPageArticle = "http://blzjeans.com/vetement-t-shirt-homme/31024-t-shirt-gris-graphique-imprime-tete-de-mort-homme-jack-and-jones.html";
+
+$pageArticle = new Article();
+
+$pageArticle->scanPageArticle($urlPageArticle);
+
+//var_dump($pageArticle);
