@@ -79,6 +79,19 @@ function DB_getBlzLinkUrl($ref) {
       . " WHERE ref='$ref';"
       )->fetch();
   
+  var_dump($reqSql);
+  
   return $reqSql;
 }
 
+function DB_setBlzHrefByRef($ref, $href) {
+  $bdd = DB_connexion();
+
+  echo ("setblzhrefburef: ref:".$ref." - href:".$href."<br>");
+  
+  $reqSql = $bdd->query(
+      "UPDATE blz"
+    . " SET url_page_article='$href'"
+    . " WHERE ref='$ref'"
+    )->fetch();  
+}

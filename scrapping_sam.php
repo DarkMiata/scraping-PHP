@@ -10,14 +10,14 @@ define ("DEBUG", TRUE);
 //
 // Samuel Vermeulen
 // 10/03/2017
-// =======================================
+// ==================================================================
 
 function debug ($string) {
   if (DEBUG === TRUE) {
     echo ($string);
   }
 }
-// =======================================
+// ==================================================================
 
 // Affichage de l'image et sauvegarde dans le répertoire 'img'
 function get_ArticleImgFile($url, $fileName) {
@@ -36,7 +36,7 @@ function get_ArticleImgFile($url, $fileName) {
     );
   }
 }
-// =======================================
+// ==================================================================
   
   function find_prixHtml($html) {
     $prixTab = $html->find('[class=price]');
@@ -51,7 +51,7 @@ function get_ArticleImgFile($url, $fileName) {
     
     return $prixFloat;
   }
-// =======================================
+// ==================================================================
  
 // renvoi le nom et la marque
   function find_nomMarqueHtml($html) {
@@ -68,7 +68,7 @@ function get_ArticleImgFile($url, $fileName) {
       
     return $Tab_result; 
 }
-// =======================================
+// ==================================================================
 
 // Renvoi le nom du fichier image et son Url
 function find_imgLinkHtml($html) {
@@ -94,7 +94,7 @@ function find_imgLinkHtml($html) {
     
     return $tab_result;
 }
-// =======================================
+// ==================================================================
 
 // Récupère l'adresse url du lien de la page de l'article
 
@@ -110,23 +110,20 @@ function find_urlLinkHtml($html) {
     
     debug($link);
 }
-// =======================================
+// ==================================================================
 
 // Retourne sous forme d'array les blocs des articles
 function get_blockArticle($urlHtml) {
 
-    $urlHtml ="http://blzjeans.com/new-products.php?n=4";
-    
-    $html = file_get_html($urlHtml);
+  //$urlHtml ="http://blzjeans.com/new-products.php?n=4";
+  $html = file_get_html($urlHtml);
+  $block_array = $html->find('li[class=product_list_block]');    
 
-
-    $block_array = $html->find('li[class=product_list_block]');    
-
-    return $block_array;
+  return $block_array;
 }
-// =======================================
+// ==================================================================
 
-// retourne sous forme d'array les link url des articles.
+// retourne sous forme d'array les link url et ref des articles.
 /**
  * 
  * @param type $block_array - blocs des articles sous forme d'array
@@ -144,18 +141,20 @@ function get_urlLink($block_array) {
     
     
     // Va chercher le num ref contenu dans le nom du fichier .html
-    $result_array['href'][] = $hrefUrl;
+    $temp['href'] = $hrefUrl;
     
     $linkHtmlFile = explode("/", $hrefUrl)[4];
     //var_dump($linkHtmlFile);
     
-    $result_array['ref'][] = explode("-", $linkHtmlFile)[0];
+    $temp['ref'] = explode("-", $linkHtmlFile)[0];
+    
+    $result_array[] = $temp;
   }
   
   return $result_array;
 }
 
-// =======================================
+// ==================================================================
 
 // Fonction principale de récupération d'informations
 function scrapPage($page) {
@@ -196,7 +195,7 @@ function scrapPage($page) {
     debug ("<br>");
   }
 }
-// =======================================
+// ==================================================================
 
 // Scanne les 10 premieres pages des nouveautés.
 function scanPageNouveauxArticles() {
@@ -209,7 +208,7 @@ function scanPageNouveauxArticles() {
     scrapPage($page);
   }
 }
-// =======================================
+// ==================================================================
 /**
 Exemple d'url: http://blzjeans.com/pull-homme/29831-pullover-fipullover-fin-homme-gris-chine-oversize-arrondie-celebry-tees.html
 url de l'article ref 29831.
@@ -222,21 +221,111 @@ url de l'article ref 29831.
 function scanPageArticleUnitaire ($ref) {
   
 }
-// =======================================
+// ==================================================================
 
 function get_urlLink_to_DB ($urlPage) {
   
+  $blockArticle_tab = get_blockArticle($urlPage);
+  $urlLinkRef_tab   = get_urlLink($blockArticle_tab);
+  
+  //var_dump($urlLinkRef_tab);
+  
+  foreach ($urlLinkRef_tab as $article) {
+    $ref  = $article['ref'];
+    $href = $article['href'];
+    
+    var_dump($ref);
+    var_dump($href);
+    
+    $reqSql = DB_getBlzLinkUrl($ref);
+    echo("reqsql:");
+    var_dump($reqSql);
+    
+    if ($reqSql === FALSE) {
+      DB_setBlzHrefByRef($ref, $href);
+      echo("reqsql false");
+    }
+    else { echo ("reqsql true"); }
+  }
+}
+// ==================================================================
+/**
+ * Récupération des urls des types de produits sur la page principale
+ * "http://blzjeans.com/" - "les produits"
+ * 
+ * 
+ * @return type array - la liste des liens
+ */
+function scanPagePrincipale () {
+  
+  //$urlMainPage    = "http://blzjeans.com/110-vetement-homme";
+  $urlMainPage    = "page_principale_categorie.html";
+  
+  $htmlMainPage   = file_get_html($urlMainPage);
+  
+  // récup des deux menus: "catégories" et "marque"
+  $block_menus = $htmlMainPage->find('ul[class=advcSearchList]');
+
+  // dans le menu "catégories" on recherche les "li"
+  $block_menuCat = $block_menus[0]->find('li');
+  
+  // dans chaque catégorie, rechercher le lien
+  foreach ($block_menuCat as $cat) {
+    
+    //récup du lien
+    $hrefCat  = $cat->find('[href]')[0]->attr['href'];
+    
+    // récup du nom de la catégorie
+    $nomCat   = $cat->find('[href]')[0]->plaintext;
+    $nomCat   = explode("(", $nomCat)[0];
+    $nomCat   = trim($nomCat);
+    
+    $temp['href'] = $hrefCat;
+    $temp['nom']  = $nomCat;
+    
+    $linkCat[] = $temp;
+  }
+
+  return $linkCat;
+}
+// ==================================================================
+
+function nbrPagesListeArticle($url) {
+  
+  $html = file_get_html($url);
+  
+  $nbrPagesText = $html->find('[class=selectPage]')[0]->find('option')[0]->plaintext;
+  $nbrPages = explode(' / ', $nbrPagesText)[1];
+ 
+  return $nbrPages;
+}
+// ==================================================================
+
+function scanPagesListeArticles() {
+  
+  global $linkCat_array;
+  
+  foreach ($linkCat_array as $link) {
+
+  $urlFirstPageArticles = $link['href'];
+  var_dump($urlFirstPageArticles);
+  
+  $htmlFirstPageArticles = file_get_html($urlFirstPageArticles);
+  }
+  
+  $nbrPages = nbrPagesListeArticle($htmlFirstPageArticles);
+ 
 }
 
-// =======================================
-// =======================================
+// ==================================================================
+// ==================================================================
 // boucle principale
-/**
-$block_array = get_blockArticle("http://blzjeans.com/new-products.php?n=4");
 
-$href_array = get_urlLink($block_array);
+//get_urlLink_to_DB("http://blzjeans.com/new-products.php?n=120");
+/*
+$linkCat_array = scanPagePrincipale();
 
-var_dump($href_array);
+scanPagesListeArticles();
 */
 
-get_urlLink_to_DB("http://blzjeans.com/new-products.php?n=4");
+$nbrPages = nbrPagesListeArticle("http://blzjeans.com/6-vetement-t-shirt-homme");
