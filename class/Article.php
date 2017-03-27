@@ -116,15 +116,15 @@ class Article {
   // ==================================================================
   // ==================================================================
   // Méthodes
-  
  
   public function scanPageArticle ($url) {
     
     $this->set_pageSite($url);
     
     // Récupération du numéro ref (dans url lien de la page)    
-    $urlExpl = explode("/", $url)[4];
-    $ref = explode('-', $urlExpl)[0];    
+    $urlExpl  = explode("/", $url)[4];
+    $ref      = explode('-', $urlExpl)[0];
+    $ref      = intval($ref);
     $this->set_ref($ref);
     
     $htmlPage = file_get_html($url);
@@ -133,12 +133,13 @@ class Article {
     $urlBlock = $htmlPage->find('div[id=product_block]')[0];
     
     // Récupération du nom (div h1)
-    $nom = $urlBlock->find('h1')[0]->plaintext;    
+    $nom = $urlBlock->find('h1')[0]->plaintext;
+    $nom = html_entity_decode($nom);
     $this->set_nom($nom);
     
     // Récupération du descriptif de l'article
     $descript = $htmlPage->find('div[id=desc_long]')[0]->plaintext;
-    $descript = trim($descript);
+    $descript = cleanString($descript);
     $this->set_description($descript);
     // Espaces en trop dans le corps du texte à supprimer par la suite
     
@@ -163,11 +164,25 @@ class Article {
     $cat = $urlBlock->find('div[class=breadcrumb]')[0]->plaintext;
     $cat = explode(">", $cat)[1];
     $cat = trim($cat);
-    $this->set_categorie($cat);    
+    $this->set_categorie($cat);
     
-    //var_dump($cat);
+    // Récupération des tailles disponibles et stockage en array
+    $taille       = $urlBlock->find('select[id=group_4]')[0]->plaintext;
+    $taille       = trim($taille);
+    $taille_tab   = explode(" ", $taille);
     
-    var_dump($this);   
+    foreach ($taille_tab as $key => $value) {
+      $taille_tab[$key] = trim($value);
+    }
+    $this->set_tailles($taille_tab);
+    
+    // Récupération des URLs des images en array
+    $img_block  = $urlBlock->find('ul[id=thumbs_list_frame]')[0]->children;
+    
+    foreach ($img_block as $key => $block) {
+      $img[] = $block->children[0]->attr['href'];      
+    }
+    $this->set_listImgs($img);    
   } 
   
   // ==================================================================
