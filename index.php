@@ -330,32 +330,22 @@ function scanPagesListeArticles() {
 // ==================================================================
 // boucle principale
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 $mainPage = new WebSite();
 $mainPage->scanMainPage();
-var_dump($mainPage->get_CatLink());
 
-<<<<<<< HEAD
-=======
-var_dump($mainPage->get_CatLink());
+//
+//
+//$urlPageArticle = "http://blzjeans.com/vetement-t-shirt-homme"
+//        . "/31024-t-shirt-gris-graphique-imprime-tete-de"
+//        . "-mort-homme-jack-and-jones.html";
+//
+//$pageArticle = new Article();
+//
+//$pageArticle->scanPageArticle($urlPageArticle);
+//
+//var_dump($pageArticle);
 
-
-
->>>>>>> master
-$urlPageArticle = "http://blzjeans.com/vetement-t-shirt-homme"
-        . "/31024-t-shirt-gris-graphique-imprime-tete-de"
-        . "-mort-homme-jack-and-jones.html";
-
-$pageArticle = new Article();
-$pageArticle->scanPageArticle($urlPageArticle);
-var_dump($pageArticle);
+$mainPage->scanCategories();
 
 
-<<<<<<< HEAD
-=======
-var_dump($pageArticle);
-
->>>>>>> master
+var_dump($mainPage);
