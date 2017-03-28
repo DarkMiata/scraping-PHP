@@ -330,10 +330,21 @@ function scanPagesListeArticles() {
 // ==================================================================
 // boucle principale
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 $mainPage = new WebSite();
 $mainPage->scanMainPage();
 var_dump($mainPage->get_CatLink());
 
+<<<<<<< HEAD
+=======
+var_dump($mainPage->get_CatLink());
+
+
+
+>>>>>>> master
 $urlPageArticle = "http://blzjeans.com/vetement-t-shirt-homme"
         . "/31024-t-shirt-gris-graphique-imprime-tete-de"
         . "-mort-homme-jack-and-jones.html";
@@ -343,3 +354,8 @@ $pageArticle->scanPageArticle($urlPageArticle);
 var_dump($pageArticle);
 
 
+<<<<<<< HEAD
+=======
+var_dump($pageArticle);
+
+>>>>>>> master
