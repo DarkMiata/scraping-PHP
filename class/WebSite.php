@@ -5,28 +5,28 @@
  * @author global
  */
 class WebSite {
-  private $CatLink = [];
-  private $CatCount;
+  private $categorie = [];
+  private $catCount;
   
   // ==================================================================
   
-  public function get_CatLink() {
-    return $this->CatLink;
+  public function get_Categorie() {
+    return $this->categorie;
   }
   // ==========================
   
   public function get_CatCount() {
-    return $this->CatCount;
+    return $this->catCount;
   }
   // ==========================
   
   public function set_CatLink($CatLink) {
-    $this->CatLink = $CatLink;
+    $this->categorie = $CatLink;
   }
   
   // ==================================================================
 
-  public function scanMainPage () {
+  public function scanMainPage() {
 
     $htmlMainPage = file_get_html(URL_SITE);
 
@@ -36,7 +36,7 @@ class WebSite {
     // dans le menu "catégories" on recherche les "li"
     $block_menuCat = $block_menus[0]->find('li');
 
-    $this->CatCount = count($block_menuCat);
+    $this->catCount = count($block_menuCat);
     
       // dans chaque catégorie, rechercher le lien
     foreach ($block_menuCat as $cat) {
@@ -52,7 +52,33 @@ class WebSite {
       $pageSite->set_count(explode(")",$nomCatExpl[1])[0]);
       $pageSite->set_cat(trim($nomCatExpl[0]));
       
-      $this->CatLink[]  = $pageSite;
+      $this->categorie[]  = $pageSite;
     }
   }
+  // ==================================================================
+  
+  function scanCategories() {
+    
+    $nbrArtParPage = 30;
+    
+    //foreach ($this->categorie as $catCourant) {
+      
+      $cat        = $this->categorie[17];
+      //$cat = $catCourant;
+
+      $nbrArti    = $cat->get_count();
+
+      var_dump($cat);
+      var_dump($nbrArti);
+
+      $nbrPages = floor($nbrArti / $nbrArtParPage)+1;
+
+      for ($n=1; $n < ($nbrPages+1); $n++) {
+        $cat->scanPageListeArticles($n);
+      }
+    //}
+  }
+  
+// ================================
+  
 }

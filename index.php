@@ -336,17 +336,17 @@ $mainPage = new WebSite();
 
 $mainPage->scanMainPage();
 
-var_dump($mainPage->get_CatLink());
+//
+//
+//$urlPageArticle = "http://blzjeans.com/vetement-t-shirt-homme"
+//        . "/31024-t-shirt-gris-graphique-imprime-tete-de"
+//        . "-mort-homme-jack-and-jones.html";
+//
+//$pageArticle = new Article();
+//
+//$pageArticle->scanPageArticle($urlPageArticle);
+//
+//var_dump($pageArticle);
 
-
-
-$urlPageArticle = "http://blzjeans.com/vetement-t-shirt-homme"
-        . "/31024-t-shirt-gris-graphique-imprime-tete-de"
-        . "-mort-homme-jack-and-jones.html";
-
-$pageArticle = new Article();
-
-$pageArticle->scanPageArticle($urlPageArticle);
-
-var_dump($pageArticle);
+$mainPage->scanCategories();
 
