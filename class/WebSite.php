@@ -5,7 +5,11 @@
  * @author global
  */
 class WebSite {
+<<<<<<< HEAD
   private Categorie $categories;
+=======
+  private $categorie = [];
+>>>>>>> master
   private $catCount;
   
   // ==================================================================
@@ -63,15 +67,23 @@ class WebSite {
     
     //foreach ($this->categorie as $catCourant) {
       
+<<<<<<< HEAD
     
     
+=======
+>>>>>>> master
       $cat        = $this->categorie[17];
       //$cat = $catCourant;
 
       $nbrArti    = $cat->get_count();
 
+<<<<<<< HEAD
       //var_dump($cat);
       //var_dump($nbrArti);
+=======
+      var_dump($cat);
+      var_dump($nbrArti);
+>>>>>>> master
 
       $nbrPages = floor($nbrArti / $nbrArtParPage)+1;
 

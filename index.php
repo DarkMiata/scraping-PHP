@@ -344,8 +344,13 @@ $mainPage->scanMainPage();
 //$pageArticle->scanPageArticle($urlPageArticle);
 //
 //var_dump($pageArticle);
+<<<<<<< HEAD
 
 $mainPage->scanCategories();
 
+=======
+
+$mainPage->scanCategories();
+>>>>>>> master
 
 var_dump($mainPage);
