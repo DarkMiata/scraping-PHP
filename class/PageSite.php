@@ -56,12 +56,7 @@ class PageSiteCat {
   }
 
 
-
-// ==================================================================
-
-<<<<<<< HEAD
-
-  
+ 
 // ==================================================================
   
   function scanPageListeArticles($page) {
@@ -92,27 +87,6 @@ class PageSiteCat {
 
 
   }
-=======
-function scanPageListeArticles($page) {
-  
-  $urlPage = $this->url."?p=$page";
-  
-  var_dump($urlPage);
-  
-  $html = file_get_html($urlPage);
-  
-  $blockListe = $html->find('div[id=products_list]')[0];
-  
-  var_dump($blockListe);
-  
-  $linkArticles = $blockListe->find('a')[0];
-  
-  //var_dump($linkArticles);
-  
-  
-  
-}
->>>>>>> master
   
 // ==================================================================
 }

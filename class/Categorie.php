@@ -7,5 +7,17 @@
  */
 
 class Categorie {
-  $nom;
+  private $name;
+  private $count;
+  private $articles;
+  
+// ==================================================================
+  
+  
+  
+  
+  
+  
+  
+  
 }

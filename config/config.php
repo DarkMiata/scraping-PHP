@@ -18,7 +18,8 @@ define("PATH_DB"      , "models/");
 define("PATH_MODELS"  , "models/");
 define("PATH_VIEW"    , "view/");
 define("PATH_IMG"     , "img/");
-define("PATH_CLASS"   , "class/");
+//define("PATH_CLASS"   , "class/");
+define("PATH_CLASS"   , "temp/class/");
 define("PATH_LIB"     , "lib/");
 
 // ========================================
@@ -30,9 +31,15 @@ define("URL_SITE"     , "page_principale_categorie.html");
 require_once (PATH_MODELS . "DB_scraping.php");
 require_once (PATH_LIB    . "simple_html_dom.php");
 require_once (PATH_LIB    . "darkmiata_lib.php");
+require_once (PATH_LIB    . "scrap.php");
 
 // ========================================
-
+/**
 require_once (PATH_CLASS  . "PageSite.php");
 require_once (PATH_CLASS  . "Article.php");
 require_once (PATH_CLASS  . "WebSite.php");
+**/
+
+require_once (PATH_CLASS . "Article.php");
+require_once (PATH_CLASS . "Categorie.php");
+require_once (PATH_CLASS . "WebSite.php");

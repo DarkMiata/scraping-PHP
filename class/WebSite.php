@@ -5,12 +5,8 @@
  * @author global
  */
 class WebSite {
-<<<<<<< HEAD
-  private Categorie $categories;
-=======
-  private $categorie = [];
->>>>>>> master
-  private $catCount;
+  private $listeCategories;
+  private $countCategories;
   
   // ==================================================================
   
@@ -20,7 +16,7 @@ class WebSite {
   // ==========================
   
   public function get_CatCount() {
-    return $this->catCount;
+    return $this->countCategories;
   }
   // ==========================
   
@@ -40,7 +36,7 @@ class WebSite {
     // dans le menu "catégories" on recherche les "li"
     $block_menuCat = $block_menus[0]->find('li');
 
-    $this->catCount = count($block_menuCat);
+    $this->countCategories = count($block_menuCat);
     
       // dans chaque catégorie, rechercher le lien
     foreach ($block_menuCat as $cat) {
@@ -67,23 +63,15 @@ class WebSite {
     
     //foreach ($this->categorie as $catCourant) {
       
-<<<<<<< HEAD
     
     
-=======
->>>>>>> master
-      $cat        = $this->categorie[17];
+      $cat        = $this->listeCategories[17];
       //$cat = $catCourant;
 
-      $nbrArti    = $cat->get_count();
+      $nbrArti    = $cat->get_CatCount();
 
-<<<<<<< HEAD
       //var_dump($cat);
       //var_dump($nbrArti);
-=======
-      var_dump($cat);
-      var_dump($nbrArti);
->>>>>>> master
 
       $nbrPages = floor($nbrArti / $nbrArtParPage)+1;
 
