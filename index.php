@@ -8,9 +8,9 @@ define ("DEBUG", TRUE);
 //
 // Samuel Vermeulen
 // 10/03/2017
-// 
+//
 // modif 29/03/2017
-// 
+//
 // v3.0
 
 // ==================================================================
@@ -20,14 +20,22 @@ function debug ($string) {
     echo ($string);
   }
 }
+// ========================================
+
+function scanCatAndArticles() {
+
+  $mainPage = new WebSite();
+  $mainPage->scrap_catsFromWebSite();
+
+  $mainPage->scrap_Categories();
+
+  var_dump($mainPage);
+}
 
 // ==================================================================
 // ==================================================================
 // boucle principale
 
-$mainPage = new WebSite();
-$mainPage->scrap_catsFromWebSite();
+//scanCatAndArticles();
 
-$mainPage->scrap_Categories();
-
-var_dump($mainPage);
+DB_hydrate_categorie("test", "http://test.com", 5);

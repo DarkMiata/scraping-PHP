@@ -29,28 +29,35 @@ class Categorie
 
 // ========================================
 // ========================================
-  function get_countArticles() {
+  public function get_countArticles() {
     return $this->countArticles;
   }
   // ------------------------
-  function get_url() {
+  public function get_url() {
     return $this->url;
   }
-
+  // ------------------------
+  public function get_name() {
+    return $this->name;
+  }
 
 // ========================================
 
-  function set_countArticles($countArticles) {
+  public function set_countArticles($countArticles) {
     $this->countArticles = $countArticles;
   }
   // ------------------------
-  function set_name($name) {
+  public function set_name($name) {
     $this->name = $name;
   }
 
 // ========================================
-// ======================================== 
-  
+// ========================================
+
+
+
+// ========================================
+
   public function scrap_PageCategorie($page) {
 
     $urlPage = $this->get_url()."?p=$page";
@@ -68,7 +75,7 @@ class Categorie
 
       $article = new Article;
       $article->scrap_pageArticle($urlArticle);
-      
+
       $this->listeArticles[] = $article;
     }
 
@@ -76,9 +83,6 @@ class Categorie
     //var_dump($blockArticles);
   }
 
-// ------------------------------  
+// ------------------------------
 
-  
-  
-  
 }
