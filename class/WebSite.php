@@ -1,32 +1,47 @@
 <?php
+
+
 /**
- * Description of WebSite
  *
- * @author global
  */
 class WebSite {
-  private $listeCategories;
-  private $countCategories;
-  
-  // ==================================================================
-  
-  public function get_Categorie() {
-    return $this->categorie;
-  }
-  // ==========================
-  
-  public function get_CatCount() {
-    return $this->countCategories;
-  }
-  // ==========================
-  
-  public function set_CatLink($CatLink) {
-    $this->categorie = $CatLink;
-  }
-  
-  // ==================================================================
 
-  public function scanMainPage() {
+  /**
+  * @var string
+  */
+  public $name;
+
+  /**
+   * @var string
+   */
+  public $mainUrl;
+
+  /**
+   * @var integer
+   */
+  public $countCategories;
+
+
+  /**
+   * @var \Categorie[]
+   */
+  public $listeCategories;
+
+  // ========================================
+  // ========================================
+
+  public function get_listeCategories() {
+    return $this->listeCategories;
+  }
+
+
+  // ========================================
+  // ========================================
+
+  /**
+   *
+   */
+  public function scrap_catsFromWebSite() {
 
     $htmlMainPage = file_get_html(URL_SITE);
 
@@ -37,50 +52,55 @@ class WebSite {
     $block_menuCat = $block_menus[0]->find('li');
 
     $this->countCategories = count($block_menuCat);
-    
+
       // dans chaque catégorie, rechercher le lien
-    foreach ($block_menuCat as $cat) {
-      $pageSite = new PageSiteCat;
+    foreach ($block_menuCat as $htmlCat) {
+      $categorie = new Categorie();
 
       //récup du lien
-      $pageSite->url  = $cat->find('[href]')[0]->attr['href'];
-      
+      $categorie->url  = $htmlCat->find('[href]')[0]->attr['href'];
+
       // récup du nom de la catégorie
-      $nomCatHref       = $cat->find('[href]')[0]->plaintext;
+      $nomCatHref       = $htmlCat->find('[href]')[0]->plaintext;
       $nomCatExpl       = explode("(", $nomCatHref);
-      
-      $pageSite->set_count(explode(")",$nomCatExpl[1])[0]);
-      $pageSite->set_cat(trim($nomCatExpl[0]));
-      
-      $this->categorie[]  = $pageSite;
+
+      $categorie->set_countArticles(explode(")",$nomCatExpl[1])[0]);
+      $categorie->set_name(trim($nomCatExpl[0]));
+
+      $this->categorie[]  = $categorie;
+
+      $categorie->to_DB();
     }
   }
-  // ==================================================================
-  
-  function scanCategories() {
-    
+  // ========================================
+
+  public function scrap_Categories() {
+
     $nbrArtParPage = 30;
-    
-    //foreach ($this->categorie as $catCourant) {
-      
-    
-    
-      $cat        = $this->listeCategories[17];
-      //$cat = $catCourant;
 
-      $nbrArti    = $cat->get_CatCount();
+  //foreach ($this->categorie as $catCourant) {
 
-      //var_dump($cat);
-      //var_dump($nbrArti);
+    $cat        = $this->categorie[17];
+    //$cat = $catCourant;
 
-      $nbrPages = floor($nbrArti / $nbrArtParPage)+1;
+    $nbrArti    = $cat->get_countArticles();
 
-      for ($n=1; $n < ($nbrPages+1); $n++) {
-        $cat->scanPageListeArticles($n);
-      }
-    //}
+    //var_dump($cat);
+    //var_dump($nbrArti);
+
+    $nbrPages = floor($nbrArti / $nbrArtParPage)+1;
+
+    for ($n=1; $n < ($nbrPages+1); $n++) {
+      $cat->scrap_PageCategorie($n);
+    }
+
+    $this->listeCategories[] = $cat;
+  //}
   }
-  
-// ================================
-  
+  // ========================================
+
+
+
+
+  // ========================================
 }

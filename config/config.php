@@ -10,8 +10,10 @@ define ("DB_URL", "localhost");
 define ("DB_LOGIN"  , "root");
 define ("DB_PWD"    , "");
 
-define ("DB_CAT"    , "scrap_categorie");
+define ("DB_CAT"    , "scrap_categories");
 define ("DB_ART"    , "scrap_articles");
+
+define ("URL_SITE"  , "http://blzjeans.com/110-vetement-homme");
 
 // ========================================
 // Routage des includes
@@ -21,8 +23,8 @@ define ("PATH_DB"      , "models/");
 define ("PATH_MODELS"  , "models/");
 define ("PATH_VIEW"    , "view/");
 define ("PATH_IMG"     , "img/");
-//define("PATH_CLASS"   , "class/");
-define ("PATH_CLASS"   , "temp/class/");
+define ("PATH_CLASS"   , "class/");
+//define ("PATH_CLASS"   , "temp/class/");
 define ("PATH_LIB"     , "lib/");
 
 // ========================================
