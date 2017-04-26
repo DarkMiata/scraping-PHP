@@ -75,97 +75,74 @@ class Article
   public function get_name() {
     return $this->name;
   }
-
   public function get_url() {
     return $this->url;
   }
-
   public function get_description() {
     return $this->description;
   }
-
   public function get_ref() {
     return $this->ref;
   }
-
   public function get_refSite() {
     return $this->refSite;
   }
-
   public function get_marque() {
     return $this->marque;
   }
-
   public function get_prix() {
     return $this->prix;
   }
-
   public function get_tailles() {
     return $this->tailles;
   }
-
   public function get_images() {
     return $this->images;
   }
-
   public function get_stocks() {
     return $this->stocks;
   }
-
   public function get_articles() {
     return $this->articles;
   }
-
   public function get_categorie() {
     return $this->categorie;
   }
-
   // ========================================
 
   public function set_name($name) {
     $this->name = $name;
   }
-
   public function set_url($url) {
     $this->url = $url;
   }
-
   public function set_description($description) {
     $this->description = $description;
   }
-
   public function set_ref($ref) {
     $this->ref = $ref;
   }
-
   public function set_refSite($refSite) {
     $this->refSite = $refSite;
   }
-
   public function set_marque($marque) {
     $this->marque = $marque;
   }
-
   public function set_prix($prix) {
     $this->prix = $prix;
   }
-
   public function set_tailles($tailles) {
     $this->tailles = $tailles;
   }
-
   public function set_images($images) {
     $this->images = $images;
   }
-
   public function set_stocks($stocks) {
     $this->stocks = $stocks;
   }
-
   public function set_articles(array $articles) {
     $this->articles = $articles;
   }
-
   public function set_categorie($categorie) {
     $this->categorie = $categorie;
   }
@@ -188,7 +165,6 @@ class Article
 
     return $reqSql;
   }
-
   // ------------------------
 
   public function scrap_pageArticle($url) {

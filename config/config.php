@@ -22,6 +22,7 @@ define ("PATH_INC"     , "inc/");
 define ("PATH_DB"      , "models/");
 define ("PATH_MODELS"  , "models/");
 define ("PATH_VIEW"    , "view/");
+define ("PATH_CONTROL" , "controllers/");
 define ("PATH_IMG"     , "img/");
 define ("PATH_CLASS"   , "class/");
 //define ("PATH_CLASS"   , "temp/class/");
@@ -33,9 +34,11 @@ require_once (PATH_MODELS . "DB.php");
 require_once (PATH_MODELS . "DB_blz.php");
 require_once (PATH_MODELS . "DB_scrap.php");
 
-require_once (PATH_LIB    . "simple_html_dom.php");
-require_once (PATH_LIB    . "darkmiata_lib.php");
-require_once (PATH_LIB    . "scrap.php");
+require_once (PATH_LIB      . "simple_html_dom.php");
+require_once (PATH_LIB      . "darkmiata_lib.php");
+//require_once (PATH_LIB      . "drk_logger.php");
+
+require_once (PATH_CONTROL  . "scrap.php");
 
 // ========================================
 /**

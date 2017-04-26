@@ -38,9 +38,7 @@ function DB_get_catIdByName($name) {
 
   return $reqSql;
 }
-
 // ------------------------
-
 function DB_hydr_categorie($name, $url, $cntArt) {
 
   $bdd = DB_connexion();
@@ -55,15 +53,15 @@ function DB_hydr_categorie($name, $url, $cntArt) {
   if ($reqSql == FALSE) {
     echo("erreur DB_hydr_categorie<br>");
     echo("requete: " . $reqSqlTxt);
-    return FALSE;
+    $result = FALSE;
   }
   else {
-    return TRUE;
+    $result = TRUE;
   }
+
+  return $result;
 }
-
 // ------------------------
-
 function DB_hydr_article($name, $url, $description
 , $ref, $refsite, $marque, $prix, $cat_id, $cat_name) {
 
@@ -90,9 +88,7 @@ function DB_hydr_article($name, $url, $description
     return TRUE;
   }
 }
-
 // ------------------------
-
 function DB_get_catById($id) {
 
   $bdd = DB_connexion();
@@ -112,10 +108,8 @@ function DB_get_catById($id) {
     return $reqSql;
   }
 }
-
 // ------------------------
-
-function DB_is_ArticleByUrl($url) {
+function DB_is_articleByUrl($url) {
 
   $bdd = DB_connexion();
 
@@ -133,6 +127,31 @@ function DB_is_ArticleByUrl($url) {
   else {
     return TRUE;
   }
+}
+// ------------------------
+function DB_up_scanById($id, $scan) {
+
+  $bdd = DB_connexion();
+
+  $reqSqlTxt =
+      "UPDATE " . DB_CAT
+      . " SET scan='$scan'"
+      . " WHERE id='$id';"
+  ;
+
+  $reqSql = $bdd->query($reqSqlTxt);
+}
+// ------------------------
+function DBScrap_getAllUrls() {
+
+  $bdd = DB_connexion();
+
+  $reqSqlTxt = "SELECT url"
+      . " FROM " . DB_ART;
+
+  $reqSql = $bdd->query($reqSqlTxt)->fetchall();
+
+  return $reqSql;
 }
 
 // ========================================

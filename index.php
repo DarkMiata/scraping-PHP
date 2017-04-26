@@ -21,7 +21,6 @@ function debug ($string) {
   }
 }
 // ========================================
-
 function scanCatAndArticles() {
 
   $mainPage = new WebSite();
@@ -32,7 +31,6 @@ function scanCatAndArticles() {
   var_dump($mainPage);
 }
 // ========================================
-
 function test_scanUnArticle() {
 
   $article = new Article();
@@ -43,30 +41,28 @@ function test_scanUnArticle() {
   $article->to_DB();
 }
 // ------------------------
+function test_localsave() {
 
-function test_scanUneCategorie($catId) {
+  define("LOCAL_SAVE_HTML", "D:/wamp64/www/Scraping/html_scrap/");
 
-  $cat = DB_get_catById($catId);
-
-  $categorie = new Categorie();
-  $categorie->hydrateFromArray($cat[0]);
-
-  $nbrArticles  = $categorie->get_countArticles();
-  $nbrPages     = floor($nbrArticles / 30)+1;
-
-  for ($n=1; $n < ($nbrPages+1); $n++) {
-    $categorie->scrap_PageCategorie($n);
-  }
-
+  loadAndSaveHTML("http://blzjeans.com/gilet-homme/29719-cape-navy-homme-et-tee-shirt-blanc.html", LOCAL_SAVE_HTML, FALSE);
 }
+// ------------------------
+function test_localSaveAllArticles() {
+  $array_url = DBScrap_getAllUrls();
 
+  foreach ($array_url as $url) {
+    loadAndSaveHTML($url['url'], LOCAL_SAVE_HTML, FALSE);
+  }
+}
 
 // ==================================================================
 // ==================================================================
 // boucle principale
 
-test_scanUneCategorie(17);
+set_time_limit(1000);
+//
+//DB_up_scanById(14, "");
 
-
-
+define("LOCAL_SAVE_HTML", "D:/wamp64/www/Scraping/html_scrap/");
 
