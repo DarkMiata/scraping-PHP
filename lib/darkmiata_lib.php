@@ -64,3 +64,4 @@ function loadAndSaveHTML ($url, $directory, $return) {
   return $html;
 }
 
+

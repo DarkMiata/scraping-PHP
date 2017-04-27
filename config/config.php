@@ -18,15 +18,17 @@ define ("URL_SITE"  , "http://blzjeans.com/110-vetement-homme");
 // ========================================
 // Routage des includes
 
-define ("PATH_INC"     , "inc/");
-define ("PATH_DB"      , "models/");
-define ("PATH_MODELS"  , "models/");
-define ("PATH_VIEW"    , "view/");
-define ("PATH_CONTROL" , "controllers/");
-define ("PATH_IMG"     , "img/");
-define ("PATH_CLASS"   , "class/");
+define ("PATH_INC"        , "inc/");
+define ("PATH_DB"         , "models/");
+define ("PATH_MODELS"     , "models/");
+define ("PATH_VIEW"       , "view/");
+define ("PATH_CONTROL"    , "controllers/");
+define ("PATH_IMG"        , "img/");
+define ("PATH_CLASS"      , "class/");
 //define ("PATH_CLASS"   , "temp/class/");
-define ("PATH_LIB"     , "lib/");
+define ("PATH_LIB"        , "lib/");
+define ("PATH_LOCAL_IMG"  , "D:/wamp64/www/Scraping/img/");
+define("LOCAL_SAVE_HTML"  , "D:/wamp64/www/Scraping/html_scrap/");
 
 // ========================================
 

@@ -55,14 +55,34 @@ function test_localSaveAllArticles() {
     loadAndSaveHTML($url['url'], LOCAL_SAVE_HTML, FALSE);
   }
 }
+// ------------------------
+function test_localSaveImg() {
+  $htmlFile = loadAndSaveHTML(
+      "http://blzjeans.com/gilet-homme/29719-cape-navy-homme-et-tee-shirt-blanc.html",
+      LOCAL_SAVE_HTML,
+      TRUE);
+
+  $article = new Article();
+
+  $article->scrap_imgsArticle($htmlFile);
+}
 
 // ==================================================================
 // ==================================================================
 // boucle principale
 
 set_time_limit(1000);
-//
-//DB_up_scanById(14, "");
 
-define("LOCAL_SAVE_HTML", "D:/wamp64/www/Scraping/html_scrap/");
+
+$array_urls = DBScrap_getAllUrls();
+
+$art = new Article();
+
+foreach ($array_urls as $url) {
+  //var_dump($url['url']);
+
+  $htmlFile = file_get_html($url['url']);
+
+  $art->scrap_imgsArticle($htmlFile);
+}
 

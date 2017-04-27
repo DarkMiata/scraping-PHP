@@ -66,7 +66,7 @@ class Article
   // ------------------------
 
   /**
-   * @var \Categorie[]
+   * @var Categorie[]
    */
   public $articles;
 
@@ -166,7 +166,6 @@ class Article
     return $reqSql;
   }
   // ------------------------
-
   public function scrap_pageArticle($url) {
 
     $this->set_url($url);
@@ -234,6 +233,51 @@ class Article
     }
     $this->set_images($img);
   }
+  // ------------------------
+  public function scrap_imgsArticle($htmlFile) {
+    //var_dump($htmlFile);
 
+    $blockTinyImgs = $htmlFile->find('ul[id=thumbs_list_frame]')[0];
+
+    //var_dump($blockTinyImgs);
+
+    $listImgsThumbs = $blockTinyImgs->find('li');
+
+    //var_dump($listImgsThumbs);
+
+    foreach ($listImgsThumbs as $blockLiImg) {
+      $urlImg = $blockLiImg->find('img')[0]->attr['src'];
+      var_dump($urlImg);
+
+      // explode de l'url et récupération du nom du répertoire
+      $urlImgExpl = explode("/", $urlImg);
+
+      $directoryImg = $urlImgExpl[1];
+      $fileImg      = $urlImgExpl[2];
+
+      // explode du nom du répertoire racine et récupération du numéro image
+      $directoryExpl = explode("-", $directoryImg);
+
+      $nbrRef = $directoryExpl[0];
+      $nbrImg = $directoryExpl[1];
+
+      $urlImgLarge = "http://blzjeans.com/".$nbrRef."-".$nbrImg."-thickbox/".$fileImg;
+
+      // nouveau format du nom de l'image: ref article + ref img
+      $imgLocalName = $nbrRef . "-" . $nbrImg . "-large.jpg";
+
+      // sauvegarde en local du JPG sous le nouveau nom
+      // si le fichier n'existe pas
+      $file_local = PATH_LOCAL_IMG . $imgLocalName;
+
+      if (file_exists($file_local) == FALSE) {
+        file_put_contents(
+            $file_local,
+            file_get_contents($urlImgLarge)
+            );
+      }
+    }
+
+}
   // ========================================
   }

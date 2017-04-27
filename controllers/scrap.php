@@ -13,5 +13,5 @@ function test_scanUneCategorie($catId) {
   for ($n=1; $n < ($nbrPages+1); $n++) {
     $categorie->scrap_PageCategorie($n);
   }
-
 }
+// ------------------------
