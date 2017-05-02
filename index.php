@@ -3,6 +3,9 @@ require_once ("config/config.php");
 
 define ("DEBUG", TRUE);
 
+$bdd = null;
+$sqlConnexionState = FALSE;
+
 // but de l'exercice: scrapper le site internet blzjeans
 // et récupérer les articles 'nouveautés' du site.
 //
@@ -66,6 +69,20 @@ function test_localSaveImg() {
 
   $article->scrap_imgsArticle($htmlFile);
 }
+// ------------------------a
+function test_scanUrlandSaveImgs() {
+  $array_urls = DBScrap_getAllUrls();
+
+  $art = new Article();
+
+  foreach ($array_urls as $url) {
+    //var_dump($url['url']);
+
+    $htmlFile = file_get_html($url['url']);
+
+    $art->scrap_imgsArticle($htmlFile);
+  }
+}
 
 // ==================================================================
 // ==================================================================
@@ -73,16 +90,10 @@ function test_localSaveImg() {
 
 set_time_limit(1000);
 
+//scanRootPhotoAndSaveToDB();
 
-$array_urls = DBScrap_getAllUrls();
+$list = DB_BLZ_listOfImages(18570);
 
-$art = new Article();
+var_dump($list);
 
-foreach ($array_urls as $url) {
-  //var_dump($url['url']);
-
-  $htmlFile = file_get_html($url['url']);
-
-  $art->scrap_imgsArticle($htmlFile);
-}
-
+echo("OK");

@@ -15,3 +15,21 @@ function test_scanUneCategorie($catId) {
   }
 }
 // ------------------------
+function scanRootPhotoAndSaveToDB() {
+  $listLocalImgs = scandir(PATH_LOCAL_IMG, SCANDIR_SORT_ASCENDING);
+
+  //var_dump($listLocalImgs);
+
+  foreach ($listLocalImgs as $localImgFileName) {
+    $lastChar = substr($localImgFileName, -9);
+
+    // le fichier fini bien par "large.jpg" ?
+    if ($lastChar == "large.jpg") {
+      $explFile     = explode("-", $localImgFileName);
+      $uniqueId     = $explFile[1];
+      $refArticle   = $explFile[0];
+
+      DB_BLZ_add_photo($uniqueId, $refArticle, $localImgFileName);
+    }
+  }
+}

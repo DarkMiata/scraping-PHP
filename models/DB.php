@@ -1,17 +1,22 @@
 <?php
+
 require_once 'config/config.php';
 
 // ========================================
 
 function DB_connexion() {
-  $bdd_co = 'mysql:host=' . DB_URL
-          . ';dbname='    . DB_NAME
-          . ';charset=utf8';
+  global $bdd, $sqlConnexionState;
 
-  $bdd = new PDO($bdd_co, DB_LOGIN, DB_PWD);
+  //var_dump($sqlConnexionState);
+  if ($sqlConnexionState == FALSE) {
+    $bdd_co = 'mysql:host=' . DB_URL
+        . ';dbname=' . DB_NAME
+        . ';charset=utf8';
 
-  echo("connection BDD<br>");
-  var_dump($bdd);
+    $bdd = new PDO($bdd_co, DB_LOGIN, DB_PWD);
+
+    $sqlConnexionState = TRUE;
+  }
 
   return $bdd;
 }

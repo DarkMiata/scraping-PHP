@@ -15,6 +15,8 @@ define ("DB_ART"    , "scrap_articles");
 
 define ("URL_SITE"  , "http://blzjeans.com/110-vetement-homme");
 
+$sqlConnexionState = FALSE;
+
 // ========================================
 // Routage des includes
 
@@ -28,7 +30,7 @@ define ("PATH_CLASS"      , "class/");
 //define ("PATH_CLASS"   , "temp/class/");
 define ("PATH_LIB"        , "lib/");
 define ("PATH_LOCAL_IMG"  , "D:/wamp64/www/Scraping/img/");
-define("LOCAL_SAVE_HTML"  , "D:/wamp64/www/Scraping/html_scrap/");
+define ("LOCAL_SAVE_HTML" , "D:/wamp64/www/Scraping/html_scrap/");
 
 // ========================================
 
