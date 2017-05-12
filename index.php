@@ -1,8 +1,6 @@
 <?php
 require_once ("config/config.php");
 
-define ("DEBUG", TRUE);
-
 $bdd = null;
 $sqlConnexionState = FALSE;
 
@@ -88,12 +86,15 @@ function test_scanUrlandSaveImgs() {
 // ==================================================================
 // boucle principale
 
-set_time_limit(1000);
+set_time_limit(5000);
 
-//scanRootPhotoAndSaveToDB();
+// 18
 
-$list = DB_BLZ_listOfImages(18570);
+//test_scanUneCategorie(16);
+//test_scanUneCategorie(15);
+//test_scanUneCategorie(28);
+//test_scanUneCategorie(21);
+//test_scanUneCategorie(20);
+//test_localSaveAllArticles();
 
-var_dump($list);
-
-echo("OK");
+test_scanUrlandSaveImgs();

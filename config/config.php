@@ -15,7 +15,9 @@ define ("DB_ART"    , "scrap_articles");
 
 define ("URL_SITE"  , "http://blzjeans.com/110-vetement-homme");
 
-$sqlConnexionState = FALSE;
+$sqlConnexionState  = FALSE;
+
+define("DEBUG", TRUE);
 
 // ========================================
 // Routage des includes

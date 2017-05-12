@@ -17,7 +17,7 @@ function cleanString ($string, $deep = 5) {
 
   return $string;
 }
-
+// ------------------------
 /*
 function log($value) {
 
@@ -47,13 +47,17 @@ function loadAndSaveHTML ($url, $directory, $return) {
 
   $localFile = $directory . $fileName;
 
+  debug($localFile . "<br>");
+
   // Si le fichier existe en local, le charger.
   // Sinon le charger de l'url et le sauvegarder en local.
   if (file_exists($localFile) == FALSE) {
     $html = file_get_html($url);
     file_put_contents($localFile, $html);
   } else {
-    $html = file_get_html($localFile);
+    if ($return == TRUE) {
+      $html = file_get_html($localFile);
+    }
   }
 
   // si $return est à TRUE, retourner l'html, sinon retourner NULL
